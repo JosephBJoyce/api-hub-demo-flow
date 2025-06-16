@@ -1,0 +1,144 @@
+openapi: 3.0.0
+info:
+  title: Customer Database API
+  description: API to interact with a customer database for managing customer data.
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /customers:
+    get:
+      summary: List all customers
+      operationId: listCustomers
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Customer"
+                x-content-type: application/json
+      x-swagger-router-controller: Default
+    post:
+      summary: Create a new customer
+      operationId: createCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/customers_body"
+        required: true
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+      x-swagger-router-controller: Default
+  /customers/{customerId}:
+    get:
+      summary: Retrieve a single customer
+      operationId: getCustomerById
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+      x-swagger-router-controller: Default
+    put:
+      summary: Update an existing customer
+      operationId: updateCustomer
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/customers_customerId_body"
+        required: true
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+      x-swagger-router-controller: Default
+    delete:
+      summary: Delete a customer
+      operationId: deleteCustomer
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        default:
+          description: successful operation
+      x-swagger-router-controller: Default
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+      description: A customer in the database.
+      example:
+        firstName: firstName
+        lastName: lastName
+        phone: phone
+        id: 0
+        email: email
+    customers_body:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+    customers_customerId_body:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
